@@ -54,12 +54,12 @@ const GetRoomPage = ()=>{
 			                       
 			.then(data=>{
 
-							                                                                                 
-							                                                      		                                                         
+							                                                                     
+						                                                      		                                                         
 				setIsAuthenticated(data.status)
 							                               
 				if (!data.status){    //if not authenticated
-												                                      
+												                         alert('Connecting you to Spotify...');            
 					fetch('/spotify/GetAuthUrl')  //authenticate
 												                                       
 						
@@ -312,7 +312,7 @@ const GetRoomPage = ()=>{
 
 
 			<p> Are you a host: {String(isHost).toUpperCase()} </p>
-			<p> Connected to Spotfiy: {String(isAuthenticated).toUpperCase()}</p>
+			<p> Connected to Spotify: {String(isAuthenticated).toUpperCase()}</p>
 
 			<MusicPlayer/>
 			<Button onClick={()=>handleLeaveRoom()} variant='contained'>Leave Room </Button>

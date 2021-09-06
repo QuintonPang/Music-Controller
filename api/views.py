@@ -174,7 +174,7 @@ class UserInRoom(APIView):
 
     def get(self,request,format=None):
 
-        print("userinroom")
+        print("Checking user's room")
 
         if not self.request.session.exists(self.request.session.session_key):
 
@@ -192,7 +192,7 @@ class UserLeaveRoom(APIView):
 
      def post(self,request,format=None):
 
-        print("userleaveRoom")
+        print("A user has left the room")
 
         if 'roomCode' in self.request.session:
             
@@ -209,7 +209,7 @@ class UserLeaveRoom(APIView):
                 roomToDel = roomToDelResults[0]
                 roomToDel.delete()
 
-                print("done deleting")
+                print("Done deleting room")
 
         return Response({'message','You have left the room'},status=status.HTTP_200_OK)
 

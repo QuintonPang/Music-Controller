@@ -2,14 +2,14 @@ from .models import SpotifyToken
 from django.utils import timezone
 from datetime import timedelta
 from .credentials import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
-from requests import post,get
+from requests import post,get,put
 
 BASE_URL = 'https://api.spotify.com/v1/me/'
 
 #flow:
 #1.authorize user and get AUTHORIZATION CODE
 #2. use AUTHORIZATION CODE to obtain ACCESS TOKEN & REFRESH TOKEN
-#3. use REFRESH TOKEN to obtaine new ACCESS TOKEN every 1 hour
+#3. use THE SAME REFRESH TOKEN to obtain new ACCESS TOKEN every 1 hour
 
 # get user tokens based on session id
 def get_user_tokens(session_id):
@@ -122,7 +122,6 @@ def execute_spotify_api_request(session_id,endpoint,post_=False,put_=False):
     if post_:
 
         post(BASE_URL + endpoint, headers=headers)
-        print('done')
 
     if put_:
 
@@ -140,8 +139,19 @@ def execute_spotify_api_request(session_id,endpoint,post_=False,put_=False):
         return {'Error': 'Issue with request'}
 
 
+def play_song(session_id):
 
 
+	return execute_spotify_api_request(session_id,'player/play',put_=True)
 
 
+def pause_song(session_id):
 
+
+	return execute_spotify_api_request(session_id,'player/pause',put_=True)
+
+
+def skip_song(session_id):
+
+
+	return execute_spotify_api_request(session_id,'player/next',post_=True)

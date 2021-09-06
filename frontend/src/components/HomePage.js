@@ -41,7 +41,7 @@ const HomePage=()=>{
 		.then(res=>res.json())
 		.then(data=>{
 
-			alert(data.code);
+			//alert(data.code);
 
 
 			

@@ -36,3 +36,4 @@ class Room(models.Model):
     guestCanPause = models.BooleanField(default=False,null=False)
     timeCreated = models.DateTimeField(auto_now_add=True) #auto_now_add means set to the time it was created
 
+    currentSong = models.CharField(max_length=50, null=True)
