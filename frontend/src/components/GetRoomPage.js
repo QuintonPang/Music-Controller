@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Grid, Button, Typography, LinearProgress } from '@material-ui/core';
 import { Formik, Form, Field } from 'formik';      
 import { TextField, CheckboxWithLabel } from 'formik-material-ui';
+import MusicPlayer from './MusicPlayer';
 
 const GetRoomPage = ()=>{
 
@@ -10,6 +11,7 @@ const GetRoomPage = ()=>{
 	const [ roomData,setRoomData ] = useState({}); 
 	const { id, host, skipVotes, guestCanPause, timeCreated, isHost} = roomData;
 	const [ settings, setSettings ] = useState(false);
+	const [ isAuthenticated, setIsAuthenticated ] = useState(false);
 
 	const history = useHistory();
 
@@ -40,7 +42,51 @@ const GetRoomPage = ()=>{
 
 
 
-		fetch('/api/GetRoomView?code='+code).then(response=>response.json()).then(data=>setRoomData(data));
+		fetch('/api/GetRoomView?code='+code).then(response=>response.json()).then(data=>{
+
+
+		setRoomData(data); 
+		
+		data.isHost&&( //if user is the host                                                                                                                           
+			fetch('/spotify/IsAuthenticated')  //check if authenticated
+			                       
+			.then(res=>res.json())
+			                       
+			.then(data=>{
+
+							                                                                                 
+							                                                      		                                                         
+				setIsAuthenticated(data.status)
+							                               
+				if (!data.status){    //if not authenticated
+												                                      
+					fetch('/spotify/GetAuthUrl')  //authenticate
+												                                       
+						
+					.then(res=>res.json())
+																	                                      
+					.then(data=>window.location.replace(data.url))}}))                                                                                                       
+
+
+
+
+
+
+																						                        });
+
+			
+
+			
+
+			
+
+
+		
+
+		
+
+
+		
 
 	},[settings]);
 
@@ -266,6 +312,9 @@ const GetRoomPage = ()=>{
 
 
 			<p> Are you a host: {String(isHost).toUpperCase()} </p>
+			<p> Connected to Spotfiy: {String(isAuthenticated).toUpperCase()}</p>
+
+			<MusicPlayer/>
 			<Button onClick={()=>handleLeaveRoom()} variant='contained'>Leave Room </Button>
 			<Button onClick={()=>setSettings(true)} variant="contained">Settings</Button>
 

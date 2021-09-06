@@ -24,6 +24,7 @@ urlpatterns = [
 
         path('',include('frontend.urls')),
       
+        path('spotify/',include('spotify.urls')),
    
 
 ]
